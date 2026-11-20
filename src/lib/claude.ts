@@ -5,6 +5,14 @@ export const DEFAULT_MODEL = "claude-sonnet-5-5";
 
 export class ClaudeError extends Error {}
 
+export function firstSecret(values: Array<string | undefined>): string {
+  for (const value of values) {
+    const trimmed = value?.trim();
+    if (trimmed) return trimmed;
+  }
+  return "";
+}
+
 export function claudeRequestBody(input: {
   model: string;
   system: string;

@@ -7,8 +7,9 @@ for that address. The executive gives a brief and receives remarks
 drafted in Mike Collins' voice.
 
 The site is an Astro app on Cloudflare Workers. Claude is called from the
-Worker with the `ANTHROPIC_API_KEY` secret. Visitors are not asked for a
-key, and the key is not in the page.
+Worker with the `CallCollinsv2` secret. `ANTHROPIC_API_KEY` is used only
+when that secret is empty. Visitors are not asked for a key, and the key
+is not in the page.
 
 Production: [callcollins.yacosta-240.workers.dev](https://callcollins.yacosta-240.workers.dev)
 
@@ -84,8 +85,8 @@ deploy. Apply the schema once:
 npx wrangler d1 migrations apply call-collins --local
 ```
 
-Copy `.dev.vars.example` to `.dev.vars` and set `ANTHROPIC_API_KEY` there
-for local drafts. `.dev.vars` stays off git.
+Copy `.dev.vars.example` to `.dev.vars` and set `CallCollinsv2` there for
+local drafts. `.dev.vars` stays off git.
 
 The remote schema is already applied, and the published Worker already
 has the key. Run these again only when republishing:
@@ -93,12 +94,13 @@ has the key. Run these again only when republishing:
 ```bash
 npx wrangler d1 migrations apply call-collins --remote
 npm run deploy
-npx wrangler secret put ANTHROPIC_API_KEY
+npx wrangler secret put CallCollinsv2
 ```
 
 `npm run deploy` builds the site and publishes the Worker `callcollins`.
-`wrangler secret put` stores the key on that Worker. The model id is the
-var `ANTHROPIC_MODEL`, set to `claude-sonnet-5-5`.
+`wrangler secret put CallCollinsv2` stores the replacement key on that
+Worker. The key's name in the Claude Console is CallCollinsv2. The model
+id is the var `ANTHROPIC_MODEL`, set to `claude-sonnet-5-5`.
 
 The production workers.dev address is public. Sign-in there is still
 email and name.

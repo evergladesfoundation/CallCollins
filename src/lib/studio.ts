@@ -1,6 +1,6 @@
 import type { APIContext } from "astro";
 import { env } from "cloudflare:workers";
-import { ClaudeError, openClaude, readClaudeText, streamClaudeText } from "./claude.ts";
+import { ClaudeError, firstSecret, openClaude, readClaudeText, streamClaudeText } from "./claude.ts";
 import { addMessage, readStyleCard, listHouse, listShelf } from "./db.ts";
 import { formatExamples, systemPrompt, type Brief } from "./prompt.ts";
 import { selectExamples } from "./retrieve.ts";
@@ -12,7 +12,7 @@ export function studioModel(): string {
 }
 
 export function studioKey(): string {
-  const key = env.ANTHROPIC_API_KEY?.trim();
+  const key = firstSecret([env.CallCollinsv2, env.ANTHROPIC_API_KEY]);
   if (!key) throw new ClaudeError(MISSING_KEY);
   return key;
 }
