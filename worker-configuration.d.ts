@@ -7,6 +7,7 @@ interface __BaseEnv_Env {
 	ACCESS_TEAM_DOMAIN: "https://evergladesfoundation.cloudflareaccess.com";
 	ACCESS_AUD: "ec08e59bbba3d7c05dd2454c60d3d9742d30e8d2715d68ea51c9b34a5d01ea76";
 	ANTHROPIC_API_KEY: string;
+	CallCollinsv2?: string;
 }
 declare namespace Cloudflare {
 	interface Env extends __BaseEnv_Env {}

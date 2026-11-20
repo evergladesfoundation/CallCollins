@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { claudeRequestBody, summarizeClaudeError } from "../src/lib/claude.ts";
+import { claudeRequestBody, firstSecret, summarizeClaudeError } from "../src/lib/claude.ts";
 import { textFromSseData, takeSseEvents } from "../src/lib/sse.ts";
 
 test("sse parser keeps a partial event and reads text deltas", () => {
@@ -16,6 +16,12 @@ test("sse parser keeps a partial event and reads text deltas", () => {
     '{"type":"content_block_delta","delta":{"type":"thinking_delta","thinking":"hidden"}}',
   );
   assert.equal(thinking, "");
+});
+
+test("studio prefers the CallCollinsv2 secret", () => {
+  assert.equal(firstSecret(["  sk-ant-new  ", "sk-ant-old"]), "sk-ant-new");
+  assert.equal(firstSecret(["", "sk-ant-old"]), "sk-ant-old");
+  assert.equal(firstSecret([undefined, "   "]), "");
 });
 
 test("claude request carries no client key and skips sampling controls", () => {
